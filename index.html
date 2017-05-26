@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Timeline</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="timeline" data-min=2015 data-max=1970 data-step=-1></div>
+  <div class="content">
+  </div>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="dn-slider.js"></script>
+  <script>
+    $( document ).ready(function() {
+      // Populate content for Demo
+      for (var i = 2015; i >= 1970; i--) {
+        $('.content').append('<div class="year-container" data-year='+i+'></div><div class="year-column">'+i+'</div><br><br><br><br><br><br><br><br><br>');
+      };
+
+      //  Plugin Values can be set with data attributes or on init here:
+      $timeline = $('.timeline').dnSlider({
+        scrollTop: 100,
+        // min: 0,
+        // max: 100,
+        // step: 1,
+        // scrollTargetClass: '.year-container',
+        // scrollTargetAttr: 'data-year',
+        // scrollTop: 80,
+        // debug: false,
+        // onChange(e) {}
+      });
+    });
+
+  </script>
+</body>
+</html>
