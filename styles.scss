@@ -1,6 +1,9 @@
-$screen-sm-min: 510px;
-$screen-md-min: 830px;
-$screen-lg-min: 1200px;
+$screen-sm-width: 510px;
+$screen-md-width: 830px;
+$screen-lg-width: 1200px;
+$screen-sm-height: 300px;
+$screen-md-height: 500px;
+$screen-lg-height: 700px;
 
 @function get-vw($target) {
   $vw-context: (1280 * 0.01) * 1px;
@@ -24,7 +27,7 @@ $offset-caption: 50px;
   cursor: pointer;
   background-color: white;
   color: black;
-  transform: translateZ(0);
+  transform: translate3d(0, 0, 0);
   &.bottom {
     padding: 0 $padding-inner;
     height: $size;
@@ -193,33 +196,65 @@ $offset-caption: 50px;
       opacity: 0;
       transform: translate(0,0);
     }
+    .bottom & {
+      @media (max-width: $screen-sm-width) {
+        &:nth-child(10n+1) {
+          &:before, &:after {
+            opacity: 1;
+          }
+        }
+      }
+      @media (min-width: $screen-sm-width) and (max-width: $screen-md-width) {
+        &:nth-child(6n+1) {
+          &:before, &:after {
+            opacity: 1;
+          }
+        }
+      }
+      @media (min-width: $screen-md-width) and (max-width: $screen-lg-width) {
+        &:nth-child(3n+1) {
+          &:before, &:after {
+            opacity: 1;
+          }
+        }
+      }
 
-    @media (max-width: $screen-sm-min) {
-      &:nth-child(10n+1) {
-        &:before, &:after {
-          opacity: 1;
+      @media (min-width: $screen-lg-width) {
+        &:nth-child(2n+1) {
+          &:before, &:after {
+            opacity: 1;
+          }
         }
       }
     }
-    @media (min-width: $screen-sm-min) and (max-width: $screen-md-min) {
-      &:nth-child(6n+1) {
-        &:before, &:after {
-          opacity: 1;
+    .left &, .right & {
+      @media (max-height: $screen-sm-height) {
+        &:nth-child(10n+1) {
+          &:before, &:after {
+            opacity: 1;
+          }
         }
       }
-    }
-    @media (min-width: $screen-md-min) and (max-width: $screen-lg-min) {
-      &:nth-child(3n+1) {
-        &:before, &:after {
-          opacity: 1;
+      @media (min-height: $screen-sm-height) and (max-height: $screen-md-height) {
+        &:nth-child(6n+1) {
+          &:before, &:after {
+            opacity: 1;
+          }
         }
       }
-    }
+      @media (min-height: $screen-md-height) and (max-height: $screen-lg-height) {
+        &:nth-child(3n+1) {
+          &:before, &:after {
+            opacity: 1;
+          }
+        }
+      }
 
-    @media (min-width: $screen-lg-min) {
-      &:nth-child(2n+1) {
-        &:before, &:after {
-          opacity: 1;
+      @media (min-height: $screen-lg-height) {
+        &:nth-child(2n+1) {
+          &:before, &:after {
+            opacity: 1;
+          }
         }
       }
     }

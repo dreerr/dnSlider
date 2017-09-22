@@ -4,7 +4,7 @@
   cursor: pointer;
   background-color: white;
   color: black;
-  transform: translateZ(0); }
+  transform: translate3d(0, 0, 0); }
   .timeline.bottom {
     padding: 0 55px;
     height: 70px;
@@ -139,16 +139,28 @@
       .right .slider-ruler span:after {
         margin-top: -50%; }
     @media (max-width: 510px) {
-      .slider-ruler span:nth-child(10n+1):before, .slider-ruler span:nth-child(10n+1):after {
+      .bottom .slider-ruler span:nth-child(10n+1):before, .bottom .slider-ruler span:nth-child(10n+1):after {
         opacity: 1; } }
     @media (min-width: 510px) and (max-width: 830px) {
-      .slider-ruler span:nth-child(6n+1):before, .slider-ruler span:nth-child(6n+1):after {
+      .bottom .slider-ruler span:nth-child(6n+1):before, .bottom .slider-ruler span:nth-child(6n+1):after {
         opacity: 1; } }
     @media (min-width: 830px) and (max-width: 1200px) {
-      .slider-ruler span:nth-child(3n+1):before, .slider-ruler span:nth-child(3n+1):after {
+      .bottom .slider-ruler span:nth-child(3n+1):before, .bottom .slider-ruler span:nth-child(3n+1):after {
         opacity: 1; } }
     @media (min-width: 1200px) {
-      .slider-ruler span:nth-child(2n+1):before, .slider-ruler span:nth-child(2n+1):after {
+      .bottom .slider-ruler span:nth-child(2n+1):before, .bottom .slider-ruler span:nth-child(2n+1):after {
+        opacity: 1; } }
+    @media (max-height: 300px) {
+      .left .slider-ruler span:nth-child(10n+1):before, .left .slider-ruler span:nth-child(10n+1):after, .right .slider-ruler span:nth-child(10n+1):before, .right .slider-ruler span:nth-child(10n+1):after {
+        opacity: 1; } }
+    @media (min-height: 300px) and (max-height: 500px) {
+      .left .slider-ruler span:nth-child(6n+1):before, .left .slider-ruler span:nth-child(6n+1):after, .right .slider-ruler span:nth-child(6n+1):before, .right .slider-ruler span:nth-child(6n+1):after {
+        opacity: 1; } }
+    @media (min-height: 500px) and (max-height: 700px) {
+      .left .slider-ruler span:nth-child(3n+1):before, .left .slider-ruler span:nth-child(3n+1):after, .right .slider-ruler span:nth-child(3n+1):before, .right .slider-ruler span:nth-child(3n+1):after {
+        opacity: 1; } }
+    @media (min-height: 700px) {
+      .left .slider-ruler span:nth-child(2n+1):before, .left .slider-ruler span:nth-child(2n+1):after, .right .slider-ruler span:nth-child(2n+1):before, .right .slider-ruler span:nth-child(2n+1):after {
         opacity: 1; } }
     .highlight-active .slider-ruler span:before, .highlight-active .slider-ruler span:after {
       opacity: 0; }

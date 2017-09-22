@@ -9,6 +9,8 @@
     body {
       font-family: Arial;
       background-color: silver;
+      font-size: 30vw;
+      text-align: center;
     }
   </style>
 </head>
@@ -24,7 +26,7 @@
     $( document ).ready(function() {
       // Populate content for Demo
       for (var i = 2015; i >= 1970; i--) {
-        $('.content').append('<div class="year-container" data-year='+i+'></div><div class="year-column">'+i+'</div><br><br><br><br><br><br><br><br><br>');
+        $('.content').append('<div class="year-container" data-year='+i+'></div><div class="year-column">'+i+'</div><br><br>');
       };
 
       //  Plugin Values can be set with data attributes or on init here:
