@@ -24,6 +24,7 @@ $offset-caption: 50px;
   cursor: pointer;
   background-color: white;
   color: black;
+  transform: translateZ(0);
   &.bottom {
     padding: 0 $padding-inner;
     height: $size;

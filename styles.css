@@ -3,7 +3,8 @@
   z-index: 100;
   cursor: pointer;
   background-color: white;
-  color: black; }
+  color: black;
+  transform: translateZ(0); }
   .timeline.bottom {
     padding: 0 55px;
     height: 70px;
