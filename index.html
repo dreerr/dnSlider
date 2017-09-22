@@ -5,9 +5,17 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Timeline</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: Arial;
+      background-color: silver;
+    }
+  </style>
 </head>
 <body>
-  <div class="timeline" data-min=2015 data-max=1970 data-step=-1></div>
+  <div class="timeline" data-min=2015 data-max=1970 data-step=-1 data-orientation='bottom'></div>
+  <div class="timeline" data-min=2015 data-max=1970 data-step=-1 data-orientation='right'></div>
+  <div class="timeline" data-min=2015 data-max=1970 data-step=-1 data-orientation='left'></div>
   <div class="content">
   </div>
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -28,11 +36,12 @@
         // scrollTargetClass: '.year-container',
         // scrollTargetAttr: 'data-year',
         // scrollTop: 80,
-        // debug: false,
+        debug: true,
         // onChange(e) {}
       });
     });
 
   </script>
+  <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 </body>
 </html>

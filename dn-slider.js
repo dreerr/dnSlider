@@ -12,6 +12,7 @@
       scroll: true,
       scrollTargetClass: '.year-container',
       scrollTargetAttr: 'data-year',
+      orientation: 'bottom',
       scrollTop: 80,
       highlight: false,
       debug: false,
@@ -30,6 +31,7 @@
     plugin.init = function() {
       plugin.settings = $.extend({}, defaults, options, $element.data());
       log(plugin.settings);
+      $element.addClass(plugin.settings.orientation);
       $handle.appendTo($sliderInner);
       $sliderInner.appendTo($element);
       appendRuler();
@@ -53,11 +55,19 @@
 
     var dragEvent = function(e) {
       if (pressed) {
-        let width = $sliderInner.width();
-        let pos = (e.pageX || e.originalEvent.touches[0].pageX) - $sliderInner.offset().left;
-        let posTrimmed = Math.min(Math.max(pos, 0), width);
-        $handle.css('left', posTrimmed + 'px');
-        return setValueByAmount(posTrimmed/width, true);
+        if (plugin.settings.orientation=='bottom') {
+          let width = $sliderInner.width();
+          let pos = (e.pageX || e.originalEvent.touches[0].pageX) - $sliderInner.offset().left;
+          let posTrimmed = Math.min(Math.max(pos, 0), width);
+          $handle.css('left', posTrimmed + 'px');
+          setValueByAmount(posTrimmed/width, true);
+        } else {
+          let height = $sliderInner.height();
+          let pos = (e.pageY || e.originalEvent.touches[0].pageY) - $sliderInner.offset().top;
+          let posTrimmed = Math.min(Math.max(pos, 0), height);
+          $handle.css('top', posTrimmed + 'px');
+          setValueByAmount(posTrimmed/height, true);
+        }
       }
     };
 
@@ -76,7 +86,12 @@
       let amount = Math.abs(plugin.value-plugin.settings.min)/range;
       log(amount);
       // Issue with subpixel :(
-      return $handle.css('left', (amount*$sliderInner.width())+'px');
+      if (plugin.settings.orientation=='bottom') {
+        $handle.css('left', (amount*$sliderInner.width())+'px');
+      } else {
+        $handle.css('top', (amount*$sliderInner.height())+'px');
+      }
+
     };
 
     var setActiveLabel = function() {
@@ -84,12 +99,12 @@
       let active = $ruler.children(`[data-value='${plugin.value}']`);
       active.addClass('active');
       active.prev().addClass('sibling');
-      return active.next().addClass('sibling');
+      active.next().addClass('sibling');
     };
 
     var changeByUser = function() {
       if (plugin.settings.scroll) { pageScrollToValue(); }
-      return plugin.settings.onChange($element);
+      plugin.settings.onChange($element);
     };
 
     var pageScrollToValue = function() {
@@ -109,7 +124,7 @@
     var watchPageScroll = function() {
       let scrollItems = $(plugin.settings.scrollTargetClass);
       if (scrollItems.length) {
-        return $(window).scroll(function() {
+        $(window).scroll(function() {
           if (!pressed && !animating) {
             let fromTop = $(this).scrollTop();
             let cur = scrollItems.map(function() {
@@ -119,7 +134,7 @@
             });
             if (cur.length===0) { cur = scrollItems.last(); }
             let scroll_value=cur.attr(plugin.settings.scrollTargetAttr);
-            return plugin.setValue(scroll_value);
+            plugin.setValue(scroll_value);
           }
         });
       }
@@ -137,13 +152,22 @@
           return $(this).attr(plugin.settings.scrollTargetAttr);
         });
       }
+      let numElems = Math.floor((plugin.settings.max - plugin.settings.min)/plugin.settings.step+1)-1;
       let i = plugin.settings.min;
+      c=0;
       while (plugin.settings.step > 0 ? i<=plugin.settings.max : i>= plugin.settings.max) {
         let makeHighlight = Array.from(highlightItems).includes(i.toString()) ? ' class="highlight"' : '';
-        range += `<span data-value='${i}'${makeHighlight}></span> `; // don't remove whitespace!
+        let segment = 100.0/numElems*c;
+        let pos = `${plugin.settings.orientation=="bottom" ? "left":"top"}: ${segment}%`;
+        range += `<span data-value='${i}'${makeHighlight} style='${pos}'></span>`;
         i += plugin.settings.step;
+        c++;
       }
       $ruler.html(range);
+      let size = 100.0 / ($ruler.children().length -1);
+      log ($ruler.children().length);
+      log ();
+      // $ruler.children().css(plugin.settings.orientation=="bottom" ? "width":"height",`${size}%`);
       return $sliderInner.prepend($ruler);
     };
 
