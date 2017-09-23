@@ -1,5 +1,5 @@
-/* https://github.com/dreerr/dnSlider
-   v1.0 | 20170526
+/*! https://github.com/dreerr/dnSlider
+   v1.1 | 20170923
    License: All rights reserved
 */
 
@@ -34,24 +34,35 @@
       $element.addClass(plugin.settings.orientation);
       $handle.appendTo($sliderInner);
       $sliderInner.appendTo($element);
+      plugin.reloadScrollItems();
       appendRuler();
-      // plugin.ruler.children().first().addClass 'active'
       plugin.value = plugin.settings.min;
       setActiveLabel();
       $element.down(function(e) {
         $('html,body').addClass('no-select');
         pressed=true;
-        return dragEvent(e);
+        dragEvent(e);
       });
       $element.move(e => dragEvent(e));
       $element.up(function(e) {
         pressed=false;
-        return updateHandle(e);
+        updateHandle(e);
       });
       $(window).resize(() => updateHandle());
-      if (plugin.settings.scroll) { return watchPageScroll(); }
+      if (plugin.settings.scroll) { watchPageScroll(); }
     };
 
+    plugin.reloadScrollItems = function() {
+      plugin.scrollItems = $(plugin.settings.scrollTargetClass+':visible');
+    }
+
+    plugin.setValue = function(value) {
+      if (value!==plugin.value) {
+        plugin.value=value;
+        setActiveLabel();
+        updateHandle();
+      }
+    };
 
     var dragEvent = function(e) {
       if (pressed) {
@@ -77,15 +88,13 @@
       if (value!==plugin.value) {
         plugin.value = value;
         setActiveLabel();
-        return changeByUser();
+        changeByUser();
       }
     };
 
     var updateHandle = function() {
       let range = Math.abs(Math.abs(plugin.settings.min) - Math.abs(plugin.settings.max));
       let amount = Math.abs(plugin.value-plugin.settings.min)/range;
-      log(amount);
-      // Issue with subpixel :(
       if (plugin.settings.orientation=='bottom') {
         $handle.css('left', (amount*$sliderInner.width())+'px');
       } else {
@@ -108,12 +117,12 @@
     };
 
     var pageScrollToValue = function() {
-      let target = $(`${plugin.settings.scrollTargetClass}[${plugin.settings.scrollTargetAttr}=${plugin.value}]`);
+      let target = $(`${plugin.settings.scrollTargetClass}:visible[${plugin.settings.scrollTargetAttr}=${plugin.value}]`);
       if (target.length) {
         clearTimeout(plugin.scrollTimer);
-        return plugin.scrollTimer = setTimeout(function() {
+        plugin.scrollTimer = setTimeout(function() {
           animating = true;
-          return $('html,body').animate(
+          $('html,body').animate(
             {scrollTop: target.offset().top - plugin.settings.scrollTop}
           , 1000, () => animating = false);
         }
@@ -122,17 +131,17 @@
     };
 
     var watchPageScroll = function() {
-      let scrollItems = $(plugin.settings.scrollTargetClass);
-      if (scrollItems.length) {
+      plugin.reloadScrollItems();
+      if (plugin.scrollItems.length) {
         $(window).scroll(function() {
           if (!pressed && !animating) {
             let fromTop = $(this).scrollTop();
-            let cur = scrollItems.map(function() {
+            let cur = plugin.scrollItems.map(function() {
               if($(this).offset().top >= fromTop) {
                 return this;
               }
             });
-            if (cur.length===0) { cur = scrollItems.last(); }
+            if (cur.length===0) { cur = plugin.scrollItems.last(); }
             let scroll_value=cur.attr(plugin.settings.scrollTargetAttr);
             plugin.setValue(scroll_value);
           }
@@ -140,45 +149,30 @@
       }
     };
 
-
-
     var appendRuler = function() {
       let range = "";
       let highlightItems = [];
       if (plugin.settings.scroll && plugin.settings.highlight) {
-        let scrollItems = $(plugin.settings.scrollTargetClass);
         $sliderInner.addClass('highlight-active');
-        highlightItems = scrollItems.map(function() {
+        highlightItems = plugin.scrollItems.map(function() {
           return $(this).attr(plugin.settings.scrollTargetAttr);
         });
       }
       let numElems = Math.floor((plugin.settings.max - plugin.settings.min)/plugin.settings.step+1)-1;
-      let i = plugin.settings.min;
-      c=0;
-      while (plugin.settings.step > 0 ? i<=plugin.settings.max : i>= plugin.settings.max) {
-        let makeHighlight = Array.from(highlightItems).includes(i.toString()) ? ' class="highlight"' : '';
-        let segment = 100.0/numElems*c;
+      let value = plugin.settings.min;
+      idx=0;
+      while (plugin.settings.step > 0 ? value<=plugin.settings.max : value>= plugin.settings.max) {
+        let makeHighlight = Array.from(highlightItems).includes(value.toString()) ? ' class="highlight"' : '';
+        let segment = 100.0/numElems*idx;
         let pos = `${plugin.settings.orientation=="bottom" ? "left":"top"}: ${segment}%`;
-        range += `<span data-value='${i}'${makeHighlight} style='${pos}'></span>`;
-        i += plugin.settings.step;
-        c++;
+        range += `<span data-value='${value}'${makeHighlight} style='${pos}'></span>`;
+        value += plugin.settings.step;
+        idx++;
       }
       $ruler.html(range);
       let size = 100.0 / ($ruler.children().length -1);
-      log ($ruler.children().length);
-      log ();
-      // $ruler.children().css(plugin.settings.orientation=="bottom" ? "width":"height",`${size}%`);
-      return $sliderInner.prepend($ruler);
+      $sliderInner.prepend($ruler);
     };
-
-    plugin.setValue = function(value) {
-      if (value!==plugin.value) {
-        plugin.value=value;
-        setActiveLabel();
-        return updateHandle();
-      }
-    };
-
 
     var log = function(msg) {
       if (plugin.settings.debug) { return (typeof console !== 'undefined' && console !== null ? console.log(msg) : undefined); }
@@ -192,10 +186,10 @@
     this.bind('touchstart', function(e) {
       func.call(this, e);
       e.stopPropagation();
-      return e.preventDefault();
+      e.preventDefault();
     });
     this.bind('mousedown', function(e) {
-      return func.call(this, e);
+      func.call(this, e);
     });
     return this;
   };
@@ -203,7 +197,7 @@
     this.bind('touchmove', function(e) {
       func.call(this, e);
       e.stopPropagation();
-      return e.preventDefault();
+      e.preventDefault();
     });
     this.bind('mousemove', function(e) {
       return func.call(this, e);
@@ -213,20 +207,18 @@
   $.fn.up = function(func) {
     this.bind('touchend', function(e) {
       func.call(this, e);
-      // e.stopPropagation()
-      return e.preventDefault();
+      e.preventDefault();
     });
     this.bind('mouseup', function(e) {
-      return func.call(this, e);
+      func.call(this, e);
     });
     return this;
   };
-
-  return $.fn.dnSlider = function(options) {
+  $.fn.dnSlider = function(options) {
     return this.each(function() {
       if (undefined === $(this).data('dnSlider')) {
         let plugin = new $.dnSlider(this, options);
-        return $(this).data('dnSlider', plugin);
+        $(this).data('dnSlider', plugin);
       }});
   };
 })(jQuery);
