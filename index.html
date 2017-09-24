@@ -16,7 +16,7 @@
 </head>
 <body>
   <div class="timeline" data-min=2015 data-max=1970 data-step=-1 data-orientation='bottom'></div>
-  <div class="timeline" data-min=2015 data-max=1970 data-step=-1 data-orientation='right'></div>
+  <div class="timeline" data-min=2015 data-max=1970 data-step=-1 data-orientation='right' data-highlight='1'></div>
   <div class="timeline" data-min=2015 data-max=1970 data-step=-1 data-orientation='left'></div>
   <div class="content">
   </div>
@@ -25,7 +25,7 @@
   <script>
     $( document ).ready(function() {
       // Populate content for Demo
-      for (var i = 2015; i >= 1970; i--) {
+      for (var i = 2015; i >= 1970; i=i-3) {
         $('.content').append('<div class="year-container" data-year='+i+'></div><div class="year-column">'+i+'</div><br><br>');
       };
 
