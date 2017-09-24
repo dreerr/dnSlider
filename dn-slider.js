@@ -104,7 +104,7 @@
     };
 
     var setActiveLabel = function() {
-      $ruler.children().removeClass('active sibling');
+      $ruler.children('.active, .sibling').removeClass('active sibling');
       let active = $ruler.children(`[data-value='${plugin.value}']`);
       active.addClass('active');
       active.prev().addClass('sibling');

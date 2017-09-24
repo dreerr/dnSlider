@@ -80,7 +80,7 @@ $offset-caption: 50px;
   // border: 1px solid black;
   background: gray;
   border-radius: 50%;
-  // z-index: 10;
+  // z-index: 0;
   .bottom & {
     cursor:ew-resize;
     touch-action: pan-y;
@@ -153,6 +153,7 @@ $offset-caption: 50px;
   span {
     position: absolute;
     display: block;
+    -webkit-backface-visibility: visible;
     .left & {
       border-top: 1px solid green;
       width: $ruler-size;
@@ -192,7 +193,7 @@ $offset-caption: 50px;
       font-size: 10px;
       letter-spacing: 0;
       text-align: center;
-      transition: opacity 0.2s linear, transform 0.2s linear, font-size 0.2s linear;
+      transition: all 0.2s linear;
       opacity: 0;
       transform: translate(0,0);
     }
@@ -277,13 +278,13 @@ $offset-caption: 50px;
         opacity: 1;
         font-size: 15px;
         .bottom & {
-          transform: translate(0, -$offset-caption);
+          transform: translate3d(0, -$offset-caption, 0);
         }
         .left & {
-          transform: translate($offset-caption, 0);
+          transform: translate3d($offset-caption, 0, 0);
         }
         .right & {
-          transform: translate(-$offset-caption, 0);
+          transform: translate3d(-$offset-caption, 0, 0);
         }
       }
     }

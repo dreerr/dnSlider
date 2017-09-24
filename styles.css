@@ -106,7 +106,8 @@
     left: 0; }
   .slider-ruler span {
     position: absolute;
-    display: block; }
+    display: block;
+    -webkit-backface-visibility: visible; }
     .left .slider-ruler span {
       border-top: 1px solid green;
       width: 20px;
@@ -127,7 +128,7 @@
       font-size: 10px;
       letter-spacing: 0;
       text-align: center;
-      transition: opacity 0.2s linear, transform 0.2s linear, font-size 0.2s linear;
+      transition: all 0.2s linear;
       opacity: 0;
       transform: translate(0, 0); }
       .bottom .slider-ruler span:after {
@@ -172,11 +173,11 @@
       opacity: 1;
       font-size: 15px; }
       .bottom .slider-ruler span.active:after {
-        transform: translate(0, -50px); }
+        transform: translate3d(0, -50px, 0); }
       .left .slider-ruler span.active:after {
-        transform: translate(50px, 0); }
+        transform: translate3d(50px, 0, 0); }
       .right .slider-ruler span.active:after {
-        transform: translate(-50px, 0); }
+        transform: translate3d(-50px, 0, 0); }
     .slider-ruler span.sibling:before {
       opacity: 0; }
     .slider-ruler span.sibling:after {
