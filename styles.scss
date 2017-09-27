@@ -19,7 +19,7 @@ $ruler-distance:  0;
 $ruler-size: 20px;
 $handle-size: 17px;
 $handle-distance: -10px;
-$offset-caption: 50px;
+$offset-caption: 80px;
 
 .timeline {
   position: fixed;
@@ -177,25 +177,51 @@ $offset-caption: 50px;
       z-index: 100;
       display: block;
       .bottom & {
-        left: -30px;
-        width: 60px;
+        transform-origin: center center;
+        transform: translate3d(-50%,0,0) scale(0.3);
 
       }
       .left & {
-        margin-top: -50%;
         right:0;
+        transform-origin: right center;
+        transform: translate3d(0,-50%,0) scale(0.3);
       }
       .right & {
-        margin-top: -50%;
-        // right:100%;
+        transform: translate3d(0,-50%,0) scale(0.3);
+        transform-origin: left center;
 
       }
-      font-size: 10px;
+      font-size: 30px;
+      line-height: 1;
       letter-spacing: 0;
       text-align: center;
       transition: all 0.2s linear;
       opacity: 0;
-      transform: translate(0,0);
+    }
+    &.active {
+      &:before {
+        opacity: 0;
+      }
+      &:after {
+        opacity: 1;
+        .bottom & {
+          transform: translate3d(-50%, -$offset-caption, 0) scale(1);
+        }
+        .left & {
+          transform: translate3d($offset-caption, -50%, 0) scale(1);
+        }
+        .right & {
+          transform: translate3d(-$offset-caption, -50%, 0) scale(1);
+        }
+      }
+    }
+    &.sibling {
+      &:before {
+        opacity: 0;
+      }
+      &:after {
+        opacity: 0;
+      }
     }
     .bottom & {
       @media (max-width: $screen-sm-width) {
@@ -275,32 +301,7 @@ $offset-caption: 50px;
       }
     }
 
-    &.active {
-      &:before {
-        opacity: 0;
-      }
-      &:after {
-        opacity: 1;
-        font-size: 15px;
-        .bottom & {
-          transform: translate3d(0, -$offset-caption, 0);
-        }
-        .left & {
-          transform: translate3d($offset-caption, 0, 0);
-        }
-        .right & {
-          transform: translate3d(-$offset-caption, 0, 0);
-        }
-      }
-    }
-    &.sibling {
-      &:before {
-        opacity: 0;
-      }
-      &:after {
-        opacity: 0;
-      }
-    }
+
 
   }
 }
