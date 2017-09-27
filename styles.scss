@@ -259,12 +259,17 @@ $offset-caption: 50px;
         }
       }
     }
-    .timeline .highlight-active & {
+    .timeline.highlight-all & {
       &:before, &:after {
         opacity: 0;
       }
     }
-    .timeline .highlight-active &.highlight {
+    .timeline.highlight-all &.highlight {
+      &:before, &:after {
+        opacity: 1;
+      }
+    }
+    .timeline.show-all & {
       &:before, &:after {
         opacity: 1;
       }
