@@ -163,7 +163,6 @@
       }
       if (plugin.settings.async) {
         plugin.items = highlightItems;
-        $element.addClass('show-all');
       } else {
         let value = plugin.settings.min;
         while (plugin.settings.step > 0 ? value<=plugin.settings.max : value>= plugin.settings.max) {
