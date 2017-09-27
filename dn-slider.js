@@ -26,7 +26,7 @@
       let $sliderInner = $('<div class="slider-inner"/>');
       let $ruler = $('<div class="slider-ruler" unselectable="on"/>');
       let $handle = $('<div class="slider-handle" />');
-      let pressed = false;
+      document.dnPressed = false;
       let animating = false;
 
       plugin.init = function() {
@@ -41,12 +41,12 @@
       // HANDLERS
       $element.down(function(e) {
         $('html,body').addClass('no-select');
-        pressed=true;
+        document.dnPressed=true;
         dragEvent(e);
       });
       $element.move(e => dragEvent(e));
       $element.up(function(e) {
-        pressed=false;
+        document.dnPressed=false;
         updateHandle(e);
       });
       $(window).resize(() => updateHandle());
@@ -72,7 +72,7 @@
     };
 
     var dragEvent = function(e) {
-      if (pressed) {
+      if (document.dnPressed) {
         if (plugin.settings.orientation=='bottom') {
           let width = $sliderInner.width();
           let pos = (e.pageX || e.originalEvent.touches[0].pageX) - $sliderInner.offset().left;
@@ -138,7 +138,7 @@
 
     var watchPageScroll = function() {
       if (plugin.scrollItems.length) {
-        if (!pressed && !animating) {
+        if (!document.dnPressed && !animating) {
           let fromTop = $(this).scrollTop();
           let cur = plugin.scrollItems.map(function() {
             if($(this).offset().top + $(this).height() >= fromTop) {

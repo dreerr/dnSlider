@@ -187,8 +187,8 @@ $offset-caption: 80px;
         transform: translate3d(0,-50%,0) scale(0.3);
       }
       .right & {
-        transform: translate3d(0,-50%,0) scale(0.3);
         transform-origin: left center;
+        transform: translate3d(0,-50%,0) scale(0.3);
 
       }
       font-size: 30px;

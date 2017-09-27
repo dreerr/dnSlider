@@ -139,8 +139,8 @@
         transform-origin: right center;
         transform: translate3d(0, -50%, 0) scale(0.3); }
       .right .slider-ruler span:after {
-        transform: translate3d(0, -50%, 0) scale(0.3);
-        transform-origin: left center; }
+        transform-origin: left center;
+        transform: translate3d(0, -50%, 0) scale(0.3); }
     .slider-ruler span.active:before {
       opacity: 0; }
     .slider-ruler span.active:after {
